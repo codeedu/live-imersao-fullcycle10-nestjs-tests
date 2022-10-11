@@ -1,0 +1,15 @@
+GET http://localhost:3000/tweets
+
+###
+GET http://localhost:3000/tweets/634586dbcef12dae83f3bde3
+
+
+
+###
+POST http://localhost:3000/tweets
+Content-Type: application/json
+
+{
+    "content": "Hello World!",
+    "screen_name": "Luiz Carlos"
+}
