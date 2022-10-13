@@ -126,7 +126,7 @@ jobs:
   
   cd:
     needs: ci
-    if: ${{ github.event_name != 'pull_request' }} && ${{ github.ref_type == 'branch' }}
+    if: ${{ github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
 
     steps:
