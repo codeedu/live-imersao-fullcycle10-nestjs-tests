@@ -21,7 +21,7 @@ describe('Tweet Tests', () => {
 
     beforeEach(async () => {
       conn = await mongoose.connect(
-        `mongodb://root:root@db_test:27017/tweets_entity_test?authSource=admin`,
+        `mongodb://root:root@db_prod:27017/tweets_entity_test?authSource=admin`,
       );
     });
 
