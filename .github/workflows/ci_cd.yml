@@ -104,7 +104,7 @@ jobs:
   
   cd:
     needs: ci
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
 
