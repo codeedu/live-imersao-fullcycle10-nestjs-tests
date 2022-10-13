@@ -6,8 +6,6 @@ name: Docker
 # documentation.
 
 on:
-  schedule:
-    - cron: '33 12 * * *'
   push:
     branches: [ "main" ]
     # Publish semver tags as releases.
@@ -23,7 +21,7 @@ env:
 
 
 jobs:
-  build:
+  ci:
 
     runs-on: ubuntu-latest
     permissions:
@@ -75,6 +73,7 @@ jobs:
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
         with:
           context: .
+          file: ./Dockerfile.prod
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
