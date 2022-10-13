@@ -7,6 +7,7 @@ async function bootstrap() {
 }
 bootstrap();
 
+
 //repositórios - Github Packages - nova versão
 
 //repositórios do Google Artifact Registry
