@@ -18,6 +18,8 @@ env:
   #REGISTRY: ghcr.io
   REGISTRY: gcr.io
   IMAGE_NAME: nestjs-api-365414/nest
+  SERVICE: nest
+  REGION: us-central1
   #IMAGE_NAME: ${{ github.repository }}
   # github.repository as <account>/<repo>
 
@@ -26,6 +28,8 @@ jobs:
   ci:
 
     runs-on: ubuntu-latest
+    outputs:
+      tags: ${{ steps.meta.outputs.tags }}
     permissions:
       contents: read
       packages: write
@@ -97,3 +101,25 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.build-and-push.outputs.digest }}
+  
+  cd:
+    needs: ci
+    run-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+    
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+    
+      - name: 'Deploy to Cloud Run'
+        uses: 'google-github-actions/deploy-cloudrun@v0'
+        with:
+          service: ${{ env.SERVICE }}
+          image: ${{ needs.ci.outputs.tags }}
+          region: ${{ env.REGION }}
+          env_vars: MONGO_DSN=${{ secrets.MONGO_DSN }}
