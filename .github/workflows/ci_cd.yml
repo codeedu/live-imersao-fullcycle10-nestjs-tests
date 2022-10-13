@@ -18,8 +18,8 @@ env:
   #REGISTRY: ghcr.io
   REGISTRY: gcr.io
   IMAGE_NAME: nestjs-api/nest
+  #IMAGE_NAME: ${{ github.repository }}
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
 
 
 jobs:
