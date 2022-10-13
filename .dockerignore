@@ -3,6 +3,7 @@
 .docker/zsh
 .devcontainer/
 .git/
+.github/
 dist/
 node_modules/
 docker-compose.yaml

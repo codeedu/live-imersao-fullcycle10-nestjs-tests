@@ -26,7 +26,6 @@ env:
 
 jobs:
   ci:
-
     runs-on: ubuntu-latest
     outputs:
       tags: ${{ steps.meta.outputs.tags }}
@@ -100,6 +99,7 @@ jobs:
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
+        if: ${{ github.event_name != 'pull_request' }}
         with:
           context: .
           file: ./Dockerfile.prod
@@ -126,6 +126,7 @@ jobs:
   
   cd:
     needs: ci
+    if: ${{ github.event_name != 'pull_request' }} && ${{ github.ref_type == 'branch' }}
     runs-on: ubuntu-latest
 
     steps:
