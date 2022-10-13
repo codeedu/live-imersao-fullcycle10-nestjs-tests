@@ -1,0 +1,10 @@
+.history/
+.docker/dbdata/
+.docker/zsh
+.devcontainer/
+.git/
+dist/
+node_modules/
+docker-compose.yaml
+Dockerfile.dev
+Dockerfile.prod
