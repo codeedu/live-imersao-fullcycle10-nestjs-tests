@@ -74,6 +74,27 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Build for testing
+        id: build-and-push
+        uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
+        with:
+          context: .
+          file: ./Dockerfile.prod
+          push: false
+          target: testing
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Up containers
+        run: docker compose -f docker-compose.prod.yaml up -d
+
+      - name: Waiting environment to be ready
+        run: wget -qO- https://raw.githubusercontent.com/eficode/wait-for/v2.1.3/wait-for | sh -s -- http://localhost:3000 -- echo success
+
+      - name: Running tests
+        run: docker compose -f docker-compose.prod.yaml exec -T app_prod sh -c "npm run test"
+
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
@@ -82,7 +103,8 @@ jobs:
         with:
           context: .
           file: ./Dockerfile.prod
-          push: ${{ github.event_name != 'pull_request' }}
+          target: production
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha

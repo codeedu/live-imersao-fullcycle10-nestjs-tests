@@ -5,6 +5,7 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile.prod
+      target: ${STAGE:-testing}
     ports:
       - 3000:3000
     volumes:
