@@ -20,9 +20,8 @@ describe('Tweet Tests', () => {
     let conn: mongoose.Mongoose;
 
     beforeEach(async () => {
-      const host = 'localhost';
       conn = await mongoose.connect(
-        `mongodb://root:root@${host}:27017/tweets_entity_test?authSource=admin`,
+        `mongodb://root:root@db_test:27017/tweets_entity_test?authSource=admin`,
       );
     });
 
